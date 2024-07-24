@@ -1,4 +1,4 @@
-# Webpack Template
+# Battleship - The Odin Project
 
 ## Objective
 
@@ -21,3 +21,4 @@
 - CSS
 - JavaScript
 - Webpack
+- Jest
