@@ -23,9 +23,9 @@ test("Ship at correct Co-ordinates for Y ", () => {
   expect(gameboard.placeBoat(boat, [0, 2], "y")).toBeTruthy();
 });
 
-test("place boat has no arguments", () => {
+test("place boat has no arguments should throw error", () => {
   const gameboard = new Gameboard();
-  expect(gameboard.placeBoat()).toBeFalsy();
+  expect(() => gameboard.placeBoat()).toThrow();
 });
 
 test("place boat index is not an array", () => {
@@ -79,4 +79,19 @@ test("receive shot misses a boat", () => {
   const boat = new Ship(2);
   gameboard.placeBoat(boat, [0, 2], "x");
   expect(gameboard.receiveAttack([0, 0])).toBeFalsy();
+});
+
+test("All boats are sunk", () => {
+  const gameboard = new Gameboard();
+  const boat = new Ship(2);
+  gameboard.placeBoat(boat, [0, 2], "x");
+  gameboard.receiveAttack([0, 2]);
+  gameboard.receiveAttack([0, 3]);
+  expect(gameboard.isBoatsSunk()).toBeTruthy();
+});
+test("All boats are NOT sunk", () => {
+  const gameboard = new Gameboard();
+  const boat = new Ship(2);
+  gameboard.placeBoat(boat, [0, 2], "x");
+  expect(gameboard.isBoatsSunk()).toBeFalsy();
 });

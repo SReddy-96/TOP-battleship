@@ -1,7 +1,8 @@
 // board should be 10x10
 function createGameboard() {
-  const array = new Array(10).fill(new Array(10).fill(null));
-  return array;
+  return Array(10)
+    .fill()
+    .map(() => Array(10).fill(null));
 }
 
 // takes a 2-d array
@@ -15,38 +16,39 @@ class Gameboard {
     this.missedShots = new Array();
   }
 
-  placeBoat(boat, index, axis) {
-    if (!boat || !index || !axis) {
+  placeBoat(boat, [row, col], axis) {
+    if (boat === undefined || axis === undefined) {
       return false;
     }
-    if (!Array.isArray(index)) {
+    if (!Array.isArray([row, col])) {
       return false;
     }
-    if (!isInBounds(index)) {
+    if (!isInBounds([row, col])) {
       return false;
     }
     // divide between x and y axis
     const length = boat.length;
     if (axis === "x") {
-      if (!isInBounds([index[0], index[1] + length])) {
+      if (!isInBounds([row, col + length])) {
         return false;
       }
       for (let i = 0; i < length; i++) {
-        this.board[index[0]][index[1] + i] = boat; // correspond to across the gameboard
+        this.board[row][col + i] = boat; // correspond to across the gameboard
       }
       return true;
     } else if (axis === "y") {
-      if (!isInBounds([index[0] + length, index[1]])) {
+      if (!isInBounds([row + length, col])) {
         return false;
       }
       for (let i = 0; i < length; i++) {
-        this.board[index[0] + i][index[1]] = boat; // correspond to down the gameboard
+        this.board[row + i][col] = boat; // correspond to down the gameboard
       }
       return true;
     } else {
       return false;
     }
   }
+
   // received attack
   receiveAttack(index) {
     if (!index || !Array.isArray(index)) {
@@ -57,14 +59,30 @@ class Gameboard {
     }
     let co_ordinates = this.board[index[0]][index[1]];
     if (!co_ordinates) {
-      this.missedShots.push(index);
-      co_ordinates = "MISS";
+      this.missedShots.push(index); // add to gameboard miss shots array
+      this.board[index[0]][index[1]] = "MISS"; // apply to gameboard
       return false;
     } else if (co_ordinates.Sunk) {
       return "Already Sunk";
     } else if (typeof co_ordinates === "object") {
       co_ordinates.hit();
       return true;
+    }
+  }
+
+  // check to see if all boats are sunk
+  isBoatsSunk() {
+    for (let row of this.board) {
+      for (let col of row) {
+        if (col) {
+          col.isSunk();
+          if (col.Sunk === false) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      }
     }
   }
 }
