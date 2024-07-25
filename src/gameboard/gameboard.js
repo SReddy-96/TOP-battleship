@@ -62,11 +62,11 @@ class Gameboard {
       this.missedShots.push(index); // add to gameboard miss shots array
       this.board[index[0]][index[1]] = "MISS"; // apply to gameboard
       return false;
-    } else if (co_ordinates.Sunk) {
-      return "Already Sunk";
-    } else if (typeof co_ordinates === "object") {
+    } else if (typeof co_ordinates === "object" && co_ordinates !== null) {
       co_ordinates.hit();
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -74,16 +74,15 @@ class Gameboard {
   isBoatsSunk() {
     for (let row of this.board) {
       for (let col of row) {
-        if (col) {
+        if (typeof col === "object" && col !== null) {
           col.isSunk();
           if (col.Sunk === false) {
             return false;
-          } else {
-            return true;
           }
         }
       }
     }
+    return true;
   }
 }
 

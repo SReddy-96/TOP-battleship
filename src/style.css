@@ -2,18 +2,18 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0;
+  margin: 0;
 }
 
 body {
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 img,
@@ -21,15 +21,15 @@ picture,
 video,
 canvas,
 svg {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 input,
 button,
 textarea,
 select {
-    font: inherit;
+  font: inherit;
 }
 
 p,
@@ -39,12 +39,57 @@ h3,
 h4,
 h5,
 h6 {
-    overflow-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 #root,
 #__next {
-    isolation: isolate;
+  isolation: isolate;
 }
 
 /* --- */
+
+header {
+  height: 10vh;
+  text-align: center;
+}
+
+.container {
+  height: 90vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#realPlayer,
+#computerPlayer {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.realPlayerBoard,
+.computerPlayerBoard {
+  width: auto;
+  height: auto;
+  padding: 0;
+  opacity: 0.5;
+}
+
+td {
+  width: 2rem;
+  height: 2rem;
+  outline: 1px solid black;
+}
+
+.activeGrid {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.activeGrid td:hover {
+  background-color: hsl(0, 0%, 90%);
+}
+.activeGrid td:active {
+  background-color: hsl(0, 0%, 100%);
+}
