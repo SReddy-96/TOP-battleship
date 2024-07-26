@@ -1,4 +1,3 @@
-import DisplayBoard from "./displayBoard";
 import fillGame from "./fillGame";
 
 export default function GameFlow(realPlayer, computerPlayer) {
@@ -6,7 +5,7 @@ export default function GameFlow(realPlayer, computerPlayer) {
   fillGame(realPlayer, computerPlayer);
 
   // populate the grids
-  DisplayBoard(realPlayer);
+  realPlayer.DisplayBoard();
 
   // set activePlayer as realPlayer
   const players = [realPlayer, computerPlayer];
@@ -14,33 +13,69 @@ export default function GameFlow(realPlayer, computerPlayer) {
   let opponent = players[1];
 
   // create a conditional statement to switch players after the turn, so once something has been clicked or receiveHit has been run.
-  const switchPlayerTurn = () => {
-    activePlayer = activePlayer === players[0] ? players[1] : players[0];
-  };
   const switchOpponentTurn = () => {
     opponent = opponent === players[0] ? players[1] : players[0];
   };
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+
+    // call the computer's turn function
+    if (activePlayer === players[1]) {
+      computerRound(players[0]);
+    }
+  };
+
   const getActivePlayer = () => activePlayer;
 
+  // handle the adding and removing of <td>
+  function tdEventHandler(cell) {
+    let index = cell.id;
+    let last3Char = index.substring(index.length - 3); // get the id's co-ordinates
+    let col = last3Char.charAt(2);
+    let row = last3Char.charAt(0);
+    const playerResult = playRound(activePlayer, opponent, row, col); // play round when cell clicked
+
+    // only if the player misses
+    if (playerResult === false) {
+      // toggle which grid to display after turn.
+      document.querySelector(".realPlayerBoard").classList.toggle("activeGrid");
+      document
+        .querySelector(".computerPlayerBoard")
+        .classList.toggle("activeGrid");
+      // then run switchPlayer
+      switchPlayerTurn();
+      // switch opponent
+      switchOpponentTurn();
+    }
+  }
+
   // play the round.
-  // add eventlistener to each cell in the table.
-  const TD = document.querySelectorAll("td");
+  // add eventlistener to each cell in the table. The real player opponent grid has the event listeners
+  const TD = document.querySelectorAll(".computerPlayerBoard>tbody>tr>td");
   TD.forEach((cell) => {
-    cell.addEventListener("click", () => {
-      let index = cell.id;
-      let last3Char = index.substring(index.length - 3); // get the id's co-ordinates
-      let col = last3Char.charAt(2);
-      let row = last3Char.charAt(0);
-      playRound(activePlayer, opponent, row, col); // play round when cell clicked
-    });
+    cell.removeEventListener("click", () => tdEventHandler);
+    cell.addEventListener("click", () => tdEventHandler(cell)), {once: true};
   });
 
-  // make no playing players grid opacity and disable clicking. `${type}PlayerBoard` or have an active class and set it in CSS
-  document.querySelector(".realPlayerBoard").classList.toggle("activeGrid");
-  document.querySelector(".computerPlayerBoard").classList.toggle("activeGrid");
+  // run if computers turn.
+  function computerRound(opponent) {
+    let continuesTurn = true;
+    while (continuesTurn === true) {
+      // loop until miss
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+      continuesTurn = playRound(activePlayer, opponent, row, col); // play round
+    }
+    // toggle which grid to display after turn.
+    document.querySelector(".realPlayerBoard").classList.toggle("activeGrid");
+    document
+      .querySelector(".computerPlayerBoard")
+      .classList.toggle("activeGrid");
 
-  // then run switchPlayer
-  switchPlayerTurn();
+    // then run switchPlayer
+    switchPlayerTurn();
+    switchOpponentTurn();
+  }
 }
 
 //  play round, takes opposite player
@@ -50,9 +85,6 @@ function playRound(activePlayer, opponent, row, col) {
 
   // check to see if the document has something in it.
   const cell = document.getElementById(`${opponent.type}-${row}-${col}`);
-  if (cell.innerHTML !== "") {
-    return 'already hit'
-  }
   if (hit === true) {
     console.log("hit");
     cell.textContent = "O";
@@ -60,11 +92,14 @@ function playRound(activePlayer, opponent, row, col) {
     // check if isBoatsSunk on each turn
     const hasPlayerWon = opponent.gameboard.isBoatsSunk();
     if (hasPlayerWon == true) {
-      console.log("player won");
+      const winnerHeading = document.getElementById("winnerHeading");
+      const winnerDialog = document.getElementById("winnerDialog");
+
+      winnerHeading.textContent = `${activePlayer.type} Player Wins!!!`;
+      winnerDialog.showModal();
     } else {
       console.log("player not won");
     }
-
     return true;
   } else if (hit === false) {
     console.log("miss");
@@ -74,8 +109,4 @@ function playRound(activePlayer, opponent, row, col) {
     console.log("ERROR");
     return false;
   }
-
-  // populate the grid cell with a 'X' if it miss or an Icon if a hit
-  // if hit then display icon then playRound again
-  // if miss display 'X' and then return.
 }

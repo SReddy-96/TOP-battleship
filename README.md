@@ -11,9 +11,11 @@
 
 
 ## Problems Encountered
+- How to stop clicking on the opponents board
 
 
 ## New Skills Acquired
+- using `pointer-events: none` to stop any clicking on the grids when not the active player.
 
 
 ## Technologies Used
@@ -33,6 +35,7 @@
 - restart button create a new Gameboard and players
 - when player starts, create a computer player.
 - Create a play module, flow of the game, keep track of who is currentPlayer.takes argument of player
+- when all boats sunk, display the winner on a dialog then a restart button to reset everything.
 - Flow of the game:
     - populate the boards and display (random) / player able to place boats on the screen
     - start game

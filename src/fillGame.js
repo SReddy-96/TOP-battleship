@@ -1,5 +1,4 @@
 import Ship from "./ship/ship";
-import DisplayBoard from "./displayBoard";
 
 // fill both the player and computer boards with boats
 export default function fillGame(realPlayer, comPlayer) {
@@ -22,5 +21,5 @@ export default function fillGame(realPlayer, comPlayer) {
   comPlayer.gameboard.placeBoat(submarine, [0, 8], "y");
   comPlayer.gameboard.placeBoat(patrolBoat, [9, 0], "x");
 
-    DisplayBoard(realPlayer);
+  realPlayer.DisplayBoard();
 }

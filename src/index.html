@@ -11,7 +11,7 @@
     </header>
     <div class="container">
       <div id="realPlayer">
-        <table class="activeGrid realPlayerBoard">
+        <table class="realPlayerBoard">
           <tbody>
             <tr>
               <td id="real-0-0"></td>
@@ -137,7 +137,7 @@
         </table>
       </div>
       <div id="computerPlayer">
-        <table class="computerPlayerBoard">
+        <table class="computerPlayerBoard activeGrid">
           <tbody>
             <tr>
               <td id="computer-0-0"></td>
@@ -263,5 +263,14 @@
         </table>
       </div>
     </div>
+
+    <!-- winner dialog -->
+
+    <dialog id="winnerDialog">
+      <div class="dialogContainer">
+        <h2 id="winnerHeading"></h2>
+        <button id="restartButton">Restart</button>
+      </div>
+    </dialog>
   </body>
 </html>
