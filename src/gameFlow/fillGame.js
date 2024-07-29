@@ -1,8 +1,7 @@
-import Ship from "./ship/ship";
+import Ship from "../ship/ship";
 
 // fill both the player and computer boards with boats
 export default function fillGame(realPlayer, comPlayer) {
-
   const carrier = new Ship(5);
   const battleship = new Ship(4);
   const destroyer = new Ship(3);

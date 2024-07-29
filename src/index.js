@@ -1,33 +1,46 @@
 import "./style.css";
-import Gameboard from "./gameboard/gameboard.js";
-import Ship from "./ship/ship.js";
 import Player from "./player/player.js";
-import fillGame from "./fillGame.js";
-import GameFlow from "./gameFlow.js";
+import GameFlow from "./gameFlow/gameFlow.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // start first game
   let realPlayer = new Player("real");
   let comPlayer = new Player("computer");
-  GameFlow(realPlayer, comPlayer);
+  let newGame = new GameFlow(realPlayer, comPlayer);
+  newGame.initialize();
 
+  // restart game
   const restartButton = document.getElementById("restartButton");
-  restartButton.addEventListener("click", () =>
-    restartGame(realPlayer, comPlayer)
-  );
+  restartButton.addEventListener("click", () => newGame.restartGame());
+
+  // play the round.
+  // add eventlistener to each cell in the table. The real player opponent grid has the event listeners
+  const TD = document.querySelectorAll(".computerPlayerBoard>tbody>tr>td");
+  TD.forEach((cell) => {
+    cell.removeEventListener("click", () => tdEventHandler(cell, newGame));
+    cell.addEventListener("click", () => tdEventHandler(cell, newGame)),
+      { once: true };
+  });
 });
 
-function clearBoard() {
-  const allTD = document.querySelectorAll("td");
-  allTD.forEach((td) => {
-    td.textContent = "";
-  });
-}
+// handle the adding and removing of <td>
+function tdEventHandler(cell, newGame) {
+  let index = cell.id;
+  let last3Char = index.substring(index.length - 3); // get the id's co-ordinates
+  let col = last3Char.charAt(2);
+  let row = last3Char.charAt(0);
+  const playerResult = newGame.playRound(row, col); // play round when cell clicked
 
-function restartGame(realPlayer, comPlayer) {
-  const winnerDialog = document.getElementById("winnerDialog");
-  clearBoard();
-  realPlayer.reset();
-  comPlayer.reset();
-  GameFlow(realPlayer, comPlayer);
-  winnerDialog.close();
+  // only if the player misses
+  if (playerResult === false) {
+    // toggle which grid to display after turn.
+    document.querySelector(".realPlayerBoard").classList.toggle("activeGrid");
+    document
+      .querySelector(".computerPlayerBoard")
+      .classList.toggle("activeGrid");
+
+    // then run switchPlayer
+    newGame.switchOpponentTurn();
+    newGame.switchPlayerTurn();
+  }
 }
