@@ -53,7 +53,6 @@ class GameFlow {
     // check to see if the document has something in it.
     const cell = document.getElementById(`${this.opponent.type}-${row}-${col}`);
     if (hit === true) {
-      console.log("hit");
       cell.textContent = "💣";
 
       // check if isBoatsSunk on each turn
@@ -64,12 +63,9 @@ class GameFlow {
 
         winnerHeading.textContent = `${this.activePlayer.type} Player Wins!!!`;
         winnerDialog.showModal();
-      } else {
-        console.log("player not won");
-      }
+      } 
       return true;
     } else if (hit === false) {
-      console.log("miss");
       cell.textContent = "◼";
       return false;
     } else if (hit === null) {

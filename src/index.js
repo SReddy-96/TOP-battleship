@@ -10,8 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   newGame.initialize();
 
   // restart game
-  const restartButton = document.getElementById("restartButton");
-  restartButton.addEventListener("click", () => newGame.restartGame());
+  const restartButtons = document.querySelectorAll("restartButton");
+  restartButtons.forEach((restartButton) =>
+    restartButton.addEventListener("click", () => newGame.restartGame())
+  );
 
   // play the round.
   // add eventlistener to each cell in the table. The real player opponent grid has the event listeners

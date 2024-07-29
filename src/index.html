@@ -12,6 +12,9 @@
     <div class="container">
       <div id="realPlayer">
         <table class="realPlayerBoard">
+          <caption>
+            Player
+          </caption>
           <tbody>
             <tr>
               <td id="real-0-0"></td>
@@ -138,6 +141,9 @@
       </div>
       <div id="computerPlayer">
         <table class="computerPlayerBoard activeGrid">
+          <caption>
+            Computer
+          </caption>
           <tbody>
             <tr>
               <td id="computer-0-0"></td>
@@ -263,13 +269,16 @@
         </table>
       </div>
     </div>
+    <div id="bottomDiv">
+      <button class="restartButton">Restart</button>
+    </div>
 
     <!-- winner dialog -->
 
     <dialog id="winnerDialog">
       <div class="dialogContainer">
         <h2 id="winnerHeading"></h2>
-        <button id="restartButton">Restart</button>
+        <button class="restartButton">Restart</button>
       </div>
     </dialog>
   </body>
