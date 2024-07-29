@@ -1,4 +1,5 @@
 import Gameboard from "../gameboard/gameboard";
+import randomPlaceBoat from "../gameFlow/randomPlaceBoat";
 
 // type should be 'real' or 'computer'
 class Player {
@@ -31,6 +32,10 @@ class Player {
 
   reset() {
     this.gameboard = new Gameboard();
+  }
+
+  randomize() {
+    randomPlaceBoat(this);
   }
 }
 

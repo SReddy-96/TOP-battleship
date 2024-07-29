@@ -32,14 +32,30 @@ class Gameboard {
       if (!isInBounds([row, col + length])) {
         return false;
       }
+
+      // check to see if the spaces are free
       for (let i = 0; i < length; i++) {
-        this.board[row][col + i] = boat; // correspond to across the gameboard
+        if (this.board[row][col + i] !== null) {
+          return false;
+        }
+      }
+      // fill spaces for boat if empty
+      for (let i = 0; i < length; i++) {
+        this.board[row][col + i] = boat; // correspond to down the gameboard
       }
       return true;
     } else if (axis === "y") {
       if (!isInBounds([row + length, col])) {
         return false;
       }
+
+      // check to see if the spaces are free
+      for (let i = 0; i < length; i++) {
+        if (this.board[row + i][col] !== null) {
+          return false;
+        }
+      }
+      // fill spaces for boat if empty
       for (let i = 0; i < length; i++) {
         this.board[row + i][col] = boat; // correspond to down the gameboard
       }

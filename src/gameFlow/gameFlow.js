@@ -8,8 +8,9 @@ class GameFlow {
   }
 
   initialize() {
+    this.activePlayer.randomize();
+    this.opponent.randomize();
     this.activePlayer.DisplayBoard();
-    fillGame(this.activePlayer, this.opponent);
   }
 
   switchPlayerTurn() {
@@ -53,7 +54,7 @@ class GameFlow {
     const cell = document.getElementById(`${this.opponent.type}-${row}-${col}`);
     if (hit === true) {
       console.log("hit");
-      cell.textContent = "O";
+      cell.textContent = "💣";
 
       // check if isBoatsSunk on each turn
       const hasPlayerWon = this.opponent.gameboard.isBoatsSunk();
@@ -69,7 +70,7 @@ class GameFlow {
       return true;
     } else if (hit === false) {
       console.log("miss");
-      cell.textContent = "X";
+      cell.textContent = "◼";
       return false;
     } else if (hit === null) {
       console.log("ERROR");
@@ -80,8 +81,7 @@ class GameFlow {
   restartGame() {
     const winnerDialog = document.getElementById("winnerDialog");
     this.clearBoard();
-    this.players[1].reset();
-    this.players[0].reset();
+    this.players.forEach((player) => player.reset());
     this.initialize();
     winnerDialog.close();
   }
@@ -90,6 +90,7 @@ class GameFlow {
     const allTD = document.querySelectorAll("td");
     allTD.forEach((td) => {
       td.textContent = "";
+      td.style.backgroundColor = "white";
     });
   }
 }

@@ -68,6 +68,13 @@ header {
   justify-content: center;
 }
 
+@media screen and (width <= 900px) {
+  #realPlayer,
+  #computerPlayer {
+    flex-direction: column;
+  }
+}
+
 .realPlayerBoard,
 .computerPlayerBoard {
   width: auto;
@@ -81,6 +88,7 @@ td {
   width: 2rem;
   height: 2rem;
   outline: 1px solid black;
+  text-align: center;
 }
 
 .activeGrid {
