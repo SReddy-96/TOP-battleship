@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   newGame.initialize();
 
   // restart game
-  const restartButtons = document.querySelectorAll("restartButton");
+  const restartButtons = document.querySelectorAll(".restartButton");
   restartButtons.forEach((restartButton) =>
     restartButton.addEventListener("click", () => newGame.restartGame())
   );
